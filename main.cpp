@@ -4,7 +4,7 @@
 void While(float x, float y, float i, float step); 
 void For(float x, float y, float i, float step); 
 void Dowhile(float x, float y, float i, float step); 
-void function(float x); 
+float function(float x); 
 
 int main() 
 { 
@@ -24,28 +24,36 @@ int main()
 	return 0;
 } 
 
-void function(float x) 
+
+float function(float x) 
 { 
     float F;
-    printf("+------------+------------+\n"); 
-    printf("|"); 
         if (x != 0) 
-        { 
+        {
             F = tan(x)*sqrt(x); 
-            printf(" X = %.3f ", x); 
-            printf("|"); 
-            printf(" Y = %.3f ", F); 
-            printf("|\n"); 
         } 
         else 
         { 
-            printf(" X = %.3f ", x); 
-            printf("|"); 
             printf(" None "); 
-            printf("|\n"); 
         } 
-    printf("+------------+------------+\n"); 
+	return F;
+}
 
+void header(float x)
+{
+ 	printf("    X         Y\n");
+    	printf("+--------+--------+\n"); 
+}
+
+void table (float x)
+{
+	printf("| %.3f  ", x); 
+	printf("| %.3f |\n", function(x));
+}
+
+void end(int x)
+{
+	printf("+--------+--------+\n"); 
 }
 
 void Dowhile(float x, float y, float z, float step) 
@@ -53,8 +61,10 @@ void Dowhile(float x, float y, float z, float step)
 
     do 
     { 
-        function(z); 
+		header(x);
+        table(z); 
         z = z + step; 
+		end(x);
     } while (z < y + 0.0001 && step != 0); 
 
 } 
@@ -64,12 +74,12 @@ void For(float x, float y, float z, float step)
 
     if (step != 0) 
     { 
-    
+
         for (float z = x; z < y + 0.0001; z = z + step) 
         { 
-    
-            function(z);           
-            
+			header(x);
+            table(z);           
+			end(x);
         } 
     } 
     else 
@@ -83,7 +93,9 @@ void While(float x, float y, float z, float step)
 
         while (z < y + 0.0001 && step != 0) 
         { 
-            function(z); 
+			header(x);
+            table(z); 
             z = z + step; 
+			end(x);
         } 
     } 
