@@ -1,127 +1,84 @@
 #include <stdio.h>
-float GetPosition(float x, float y);
-void main()
+#include <math.h>
+
+float inputArray(float* array, int amount);
+float findMini(float* array, int amount);
+float findZero(float* array, int amount);
+double avgGeom( int zero, int mini, float* array);
+
+int main()
 {
-	float x;
-	float y;
-	printf("y = 2x + 2\n");
-	printf("y = 0.5x - 1\n");
-	printf("y = -x + 2\n");
-	printf("Please insert coordinates of the point\n");
-	scanf("%f%f", &x, &y);
-	int p = GetPosition(x, y);
-	switch (p)
+	float array[10000];
+	int amount;
+	printf("Insert number of elements:\n");
+	scanf_s("%d", &amount);
+	inputArray(array, amount);
+	int min = findMini(array, amount);
+
+	int zero = findZero(array, amount);
+
+
+	printf("%lf",avgGeom(zero, min, array));
+	getchar();
+	getchar();
+	
+}
+
+float inputArray(float *array,int amount)
+{
+	for (int i = 0; i < amount; i = i + 1)
 	{
-	    case 1:
-		    printf("Point is placed in region 1");
-			break;
-		case 2:
-			printf("Point is placed in region 2");
-			break;
-		case 3:
-		    printf("Point is placed in region 3");
-			break;
-		case 4:
-		    printf("Point is placed in region 4");
-			break;
-		case 5:
-		    printf("Point is placed in region 5");
-			break;
-		case 6:
-		    printf("Point is placed in region 6");
-			break;
-		case 7:
-		    printf("Point is placed in region 7");
-			break;
-		case 10:
-		    printf("Point is placed on line 1");
-			break;
-		case 20:
-		    printf("Point is placed on line 2");
-			break;
-		case 30:
-		    printf("Point is placed on line 3");
-			break;
-        case 12:
-		    printf("Point is located at the intersection of lines 1 and 2");
-			break;
-		case 13:
-		    printf("Point is located at the intersection of lines 1 and 3");
-			break;
-		case 23:
-		    printf("Point is located at the intersection of lines 2 and 3");
-			break;
+		scanf_s("%f", &array[i]);
 	}
-
-	getchar();
-	getchar();
+	return 0;
 }
 
-float a ( float x, float y )
+float findMini(float* array, int amount)
 {
-	int g;
-    if ( y - 2 * x - 2 > 0 )
-		g = 1;
-	if ( y - 2 * x - 2 < 0 )
-		g = - 1;
-	if ( y - 2 * x - 2 == 0 )
-		g = 0;
-	return g;
+	float min = array[0];
+	int mini = 0;
+	for (int i = 0; i < amount; i = i + 1)
+	{
+		if (array[i] < min)
+		{
+			min = array[i];
+			mini = i;
+		}
+	}
+	return mini;
 }
 
-float b (float x, float y )
+float findZero(float* array, int amount)
 {
-	int h;
-    if (y - 0.5 * x + 1 > 0 )
-		h = 1;
-	if (y - 0.5 * x + 1< 0 )
-		h = - 1;
-	if (y - 0.5 * x + 1 == 0 )
-		h = 0;
-	return h;
+	int zero = 10000;
+	for (int i = 0; i < amount; i = i + 1)
+	{
+		if (array[i] == 0)
+			zero = i;
+	}
+	return zero;
 }
 
-float c ( float x, float y )
+double avgGeom(int zero, int mini,float* array)
 {
-	int j;
-    if (y + x - 2 > 0 )
-		j = 1;
-	if ( y + x - 2 < 0 )
-		j = - 1;
-	if (y + x - 2 == 0 )
-		j = 0;
-	return j;
+	float multi = 1;
+	float count=0;
+	if (zero < mini)
+	{
+	for (int i = 0; i < zero; i = i + 1)
+	{
+		multi = multi * array[i];
+		count = count + 1;
+	}
+	}
+	else if (mini < zero)
+	{
+	for (int i = 0; i < mini; i = i + 1)
+	{
+		multi = multi * array[i];
+		count = count + 1;
+	}
+	}
+	return powf(multi,(1/count));
 }
 
-
-float GetPosition(float x, float y)
-{
-	float f;
-	if (( a(x , y) < 0 ) && ( b(x , y) > 0 ) && ( c(x , y) > 0 ))
-		f = 1;
-	else if (( a(x , y) < 0) && ( b(x , y) < 0 ) && ( c(x , y) > 0 ))
-		f = 2;
-	else if (( a(x , y) < 0 ) && ( b(x , y) < 0 ) && ( c(x , y) < 0 ))
-		f = 3;
-	else if ( (a(x , y) > 0) && ( b(x , y) < 0 ) && ( c(x , y) < 0 ))
-		f = 4;
-	else if ( (a(x , y) < 0 ) && ( b(x , y) < 0 ) && ( c(x , y) > 0 ))
-		f = 5;
-	else if ( (a(x , y) > 0 ) && ( b(x , y) > 0 ) && ( c(x , y) > 0 ))
-		f = 6;
-	else if ( (a(x , y) < 0 ) && ( b(x , y) > 0 ) && ( c(x , y) < 0 ))
-		f = 7;
-	else if ( (a(x , y) == 0 ) && (b(x , y) != 0) && ( c(x , y) != 0 ))
-		f = 10;
-	else if ( (a(x , y) != 0 ) && (b(x , y) == 0) && ( c(x , y) != 0 ))
-		f = 20;
-	else if (( a(x , y) != 0 ) && (b(x , y) != 0) && ( c(x , y) == 0 ))
-		f = 30;
-	else if (( a(x , y) == 0 ) && ( b(x , y) == 0 ))
-		f = 12;
-	else if (( a(x , y) == 0 ) && ( c(x , y) == 0 ))
-		f = 13;
-	else if (( b(x , y) == 0 ) && ( c(x , y) == 0 ))
-		f = 23;
-	return f;
-}
