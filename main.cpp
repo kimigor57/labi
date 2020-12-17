@@ -7,6 +7,9 @@ float inputArray(float* array, int size);
 float group(float* array, int size);
 float bubbleSort(float* array, int size);
 float outputArray(float* array, int size);
+int counter (int k);
+float bubbleSort2 (float *array, int size, int counter);
+
 int main()
 {
 
@@ -16,7 +19,9 @@ int main()
 	float* array = (float*)malloc(size * sizeof(float));
 	inputArray(array, size);
 	bubbleSort(array, size);
+	counter (k);
 	group(array, size);
+	bubbleSort2(array, size, counter);
 	outputArray(array, size);
 	getchar();
 	getchar();
@@ -49,14 +54,21 @@ float bubbleSort(float *array, int size)
   return 0;
 }
 
-float group(float* array, int size)
+int counter (int k)
 {
-	int k=0;
+int k=0;
 	for (int i = 0; i < size; i = i + 1)
 	{
 		if (array[i] < 0)
 			k=k+1;
 	}
+return k;
+}
+
+float group(float* array, int size)
+{
+	
+	
 	for (int i = size - 1; i >= 0; i--)
 	{
 		if (array[i] < 0)
@@ -73,7 +85,12 @@ float group(float* array, int size)
 			array[size - 1] = tmp2;
 		}
 	}
-	for (int i = size-k; i < size - 1; i++)
+	return 0;
+}
+
+float bubbleSort2 (float *array, int size, int counter)
+{
+	for (int i = size-counter; i < size - 1; i++)
     {
 		for (int j = (size - 1); j > i; j--) 
 		{
@@ -87,8 +104,6 @@ float group(float* array, int size)
     }
 	return 0;
 }
-
-
 
 float outputArray(float* array, int size)
 {
